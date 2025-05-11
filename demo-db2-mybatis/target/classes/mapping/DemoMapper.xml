@@ -5,13 +5,13 @@
 
 	<!-- ResultMap for Customer -->
 	<resultMap id="customerRM" type="com.example.demo.model.Customer">
-		<id property="id" column="ID" />
+		<result property="id" column="ID" />
 		<result property="name" column="NAME" />
 	</resultMap>
 
 	<!-- ResultMap for Order with nested Address and Products -->
 	<resultMap id="orderRM" type="com.example.demo.model.Order">
-		<id property="id" column="ORDER_ID" />
+		<result property="id" column="ORDER_ID" />
 		<result property="amount" column="AMOUNT" />
 		<association property="address"
 			javaType="com.example.demo.model.Address">
