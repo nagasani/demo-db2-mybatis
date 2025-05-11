@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.example.demo.mapper.DemoMapper">
 
-    <resultMap id="customerRM" type="com.example.demo.model.Customer">
-        <id property="id" column="ID"/>
-        <result property="name" column="NAME"/>
-    </resultMap>
+	<!-- ResultMap for Customer -->
+	<resultMap id="customerRM" type="com.example.demo.model.Customer">
+		<id property="id" column="ID" />
+		<result property="name" column="NAME" />
+	</resultMap>
 
-    <resultMap id="orderRM" type="com.example.demo.model.Order">
-        <id property="id" column="ID"/>
-        <result property="amount" column="AMOUNT"/>
-        <association property="address" javaType="com.example.demo.model.Address">
-            <result property="street" column="STREET"/>
-            <result property="city" column="CITY"/>
-            <result property="state" column="STATE"/>
-            <result property="zip" column="ZIP"/>
-        </association>
-    </resultMap>
+	<!-- ResultMap for Order with nested Address and Products -->
+	<resultMap id="orderRM" type="com.example.demo.model.Order">
+		<id property="id" column="ORDER_ID" />
+		<result property="amount" column="AMOUNT" />
+		<association property="address"
+			javaType="com.example.demo.model.Address">
+			<result property="street" column="STREET" />
+			<result property="city" column="CITY" />
+			<result property="state" column="STATE" />
+			<result property="zip" column="ZIP" />
+		</association>
+		<collection property="products" ofType="com.example.demo.model.Product">
+			<result property="id" column="P_ID" />
+			<result property="description" column="P_DESC" />
+			<result property="unitPrice" column="P_PRICE" />
+		</collection>
+	</resultMap>
 
-    <select id="callProc"
-            statementType="CALLABLE"
-            parameterType="map"
-            resultSets="CURSOR1,CURSOR2"
-            resultMap="customerRM,orderRM">
-        { CALL DEMO.GET_CUSTOMERS_AND_ORDERS(
-            #{minCustId, mode=IN, jdbcType=INTEGER},
-            #{minOrdAmt, mode=IN, jdbcType=DECIMAL},
-            #{errCode, mode=OUT, jdbcType=INTEGER},
-            #{errMsg, mode=OUT, jdbcType=VARCHAR}
-        ) }
-    </select>
+	<!-- Stored procedure call -->
+	<select id="callProc"
+		statementType="CALLABLE"
+		resultSets="CURSOR1,CURSOR2"
+		resultMap="customerRM,orderRM">
+		{ CALL DEMO1.GET_CUSTOMERS_AND_ORDERS(
+		#{minCustId, mode=IN, jdbcType=INTEGER},
+		#{minOrdAmt, mode=IN, jdbcType=DECIMAL},
+		#{errCode, mode=OUT, jdbcType=INTEGER},
+		#{errMsg, mode=OUT, jdbcType=VARCHAR}
+		) }
+	</select>
+
 </mapper>

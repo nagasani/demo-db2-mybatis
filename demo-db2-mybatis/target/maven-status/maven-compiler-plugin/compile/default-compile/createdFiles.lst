@@ -8,4 +8,5 @@ com\example\demo\model\Address.class
 com\example\demo\dao\DemoDao.class
 com\example\demo\config\DbConfig.class
 com\example\demo\model\Order.class
+com\example\demo\model\Product.class
 com\example\demo\dao\DemoDao$Records.class
