@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:db2://localhost:50000/BLUDB
+    username: db2inst1
+    password: db2pwd
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+
+mybatis:
+  mapper-locations: classpath*:mapping/*.xml
+  type-aliases-package: com.example.demo.model
